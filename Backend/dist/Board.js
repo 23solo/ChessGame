@@ -13,10 +13,10 @@ class Board {
             for (let j = 0; j < size; j++) {
                 let cellObj;
                 if ((i + j) % 2 == 0) {
-                    cellObj = { color: 'white', position: [i, j] };
+                    cellObj = { color: 'W', position: [i, j] };
                 }
                 else {
-                    cellObj = { color: 'black', position: [i, j] };
+                    cellObj = { color: 'B', position: [i, j] };
                 }
                 row.push(cellObj);
             }
