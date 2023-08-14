@@ -1,5 +1,5 @@
 #!/bin/sh
-# Deletes files created by c++ compiler
+
 RED='\033[0;31m'
 branch_name=$(git symbolic-ref -q HEAD | cut -d"/" -f 3)
 if [[ "$branch_name" == "master" ]]; then

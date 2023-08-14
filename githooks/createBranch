@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if [ -z "$name" ]; then
+  echo "${RED}Cannot create branch without name !!! "
+  exit 1
+fi;
+echo $1
+newCount=$(($1+1))
+echo $newCount
+git checkout -b "CHESS_$1"_"$name"
+sed -i '' "s/currentChessCount=$1/currentChessCount=$newCount/g" ./../Backend/Makefile
