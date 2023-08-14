@@ -28,6 +28,11 @@ class Board {
         piece.position = [row, col];
         this.grid[row][col].piece = piece;
     }
+    updatePiece(move) {
+        this.grid[move.toI][move.toJ] = this.grid[move.currentI][move.currentJ];
+        this.grid[move.currentI][move.currentJ].piece = undefined;
+        this.grid[move.toI][move.toJ].position = [move.toI, move.toJ];
+    }
     print() {
         for (let i = 0; i < this.size; i++) {
             let rowStr = '';

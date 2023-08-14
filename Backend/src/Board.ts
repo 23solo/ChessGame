@@ -1,5 +1,6 @@
 import { Cell } from './Cell';
 import { Piece } from './Piece';
+import { move } from './moves/move';
 export class Board {
   size: number;
   grid: Cell[][];
@@ -29,6 +30,12 @@ export class Board {
   placePiece(piece: Piece, row: number, col: number) {
     piece.position = [row, col];
     this.grid[row][col].piece = piece;
+  }
+
+  updatePiece(move: move) {
+    this.grid[move.toI][move.toJ] = this.grid[move.currentI][move.currentJ];
+    this.grid[move.currentI][move.currentJ].piece = undefined;
+    this.grid[move.toI][move.toJ].position = [move.toI, move.toJ];
   }
 
   print() {

@@ -1,5 +1,7 @@
 import { Board } from './Board';
 import { initializeBoard } from './ChessBoard/initialize';
+import { move } from './moves/move';
+import { validPieceMove } from './moves/validatePieceMoves';
 import { User } from './user/User';
 
 const board: Board = initializeBoard();
@@ -19,3 +21,14 @@ const user2: User = {
   canCastleRight: true,
   isKingInCheck: false,
 };
+
+let move: move = {
+  currentI: 1,
+  currentJ: 1,
+  toI: 3,
+  toJ: 1,
+};
+
+if (validPieceMove(move, board)) {
+  board.updatePiece(move);
+}

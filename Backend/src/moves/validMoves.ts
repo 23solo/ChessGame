@@ -90,7 +90,7 @@ const validDiagonalDownLeftMove = (board: Board, move: move): boolean => {
 };
 
 // Calling the above methods on conditions
-const validStraightMove = (board: Board, move: move): boolean => {
+export const validStraightMove = (board: Board, move: move): boolean => {
   if (move.toI == move.toI) {
     if (move.toJ > move.currentJ) {
       return validHorizontalRightMove(board, move);
@@ -105,7 +105,7 @@ const validStraightMove = (board: Board, move: move): boolean => {
   return false;
 };
 
-const validDiagonalMove = (board: Board, move: move): boolean => {
+export const validDiagonalMove = (board: Board, move: move): boolean => {
   if (move.currentI < move.toI && move.currentJ < move.toJ) {
     return validDiagonalTopLeftMove(board, move);
   } else if (move.currentI < move.toI && move.currentJ > move.toJ) {
@@ -114,6 +114,24 @@ const validDiagonalMove = (board: Board, move: move): boolean => {
     return validDiagonalDownLeftMove(board, move);
   } else if (move.currentI > move.toI && move.currentJ > move.toJ) {
     return validDiagonalDownRightMove(board, move);
+  }
+  return false;
+};
+
+export const validPawnMove = (board: Board, move: move): boolean => {
+  if (move.currentI > move.toI) {
+    while (--move.currentI > move.toI) {
+      if (board.grid[move.currentI][move.currentJ].piece) {
+        return false;
+      }
+    }
+    return true;
+  }
+  while (++move.currentI < move.toI) {
+    if (board.grid[move.currentI][move.currentJ].piece) {
+      return false;
+    }
+    return true;
   }
   return false;
 };
