@@ -13,10 +13,10 @@ class Board {
             for (let j = 0; j < size; j++) {
                 let cellObj;
                 if ((i + j) % 2 == 0) {
-                    cellObj = { color: 'white', position: [i, j] };
+                    cellObj = { color: 'W', position: [i, j] };
                 }
                 else {
-                    cellObj = { color: 'black', position: [i, j] };
+                    cellObj = { color: 'B', position: [i, j] };
                 }
                 row.push(cellObj);
             }
@@ -27,6 +27,11 @@ class Board {
     placePiece(piece, row, col) {
         piece.position = [row, col];
         this.grid[row][col].piece = piece;
+    }
+    updatePiece(move) {
+        this.grid[move.toI][move.toJ] = this.grid[move.currentI][move.currentJ];
+        this.grid[move.currentI][move.currentJ].piece = undefined;
+        this.grid[move.toI][move.toJ].position = [move.toI, move.toJ];
     }
     print() {
         for (let i = 0; i < this.size; i++) {
