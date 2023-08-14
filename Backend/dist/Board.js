@@ -11,14 +11,14 @@ class Board {
         for (let i = 0; i < size; i++) {
             const row = [];
             for (let j = 0; j < size; j++) {
-                let obj;
+                let cellObj;
                 if ((i + j) % 2 == 0) {
-                    obj = { color: 'white', position: [i, j] };
+                    cellObj = { color: 'white', position: [i, j] };
                 }
                 else {
-                    obj = { color: 'black', position: [i, j] };
+                    cellObj = { color: 'black', position: [i, j] };
                 }
-                row.push(obj);
+                row.push(cellObj);
             }
             grid.push(row);
         }
