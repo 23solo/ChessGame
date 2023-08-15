@@ -65,6 +65,7 @@ const validDiagonalTopRightMove = (board, move) => {
     return true;
 };
 const validDiagonalDownRightMove = (board, move) => {
+    console.log('HERE');
     let currentJ = move.currentJ, currentI = move.toI, toJ = move.toJ, toI = move.toI;
     ++currentJ;
     ++currentI;
@@ -109,24 +110,24 @@ const validStraightMove = (board, move) => {
 };
 exports.validStraightMove = validStraightMove;
 const validDiagonalMove = (board, move) => {
-    let currentJ = move.currentJ, currentI = move.toI, toJ = move.toJ, toI = move.toI;
-    if (currentI < toI && currentJ < toJ) {
+    let currentJ = move.currentJ, currentI = move.currentI, toJ = move.toJ, toI = move.toI;
+    if (currentI > toI && currentJ > toJ) {
         return validDiagonalTopLeftMove(board, move);
     }
-    else if (currentI < toI && currentJ > toJ) {
+    else if (currentI > toI && currentJ < toJ) {
         return validDiagonalTopRightMove(board, move);
     }
-    else if (currentI > toI && currentJ < toJ) {
+    else if (currentI < toI && currentJ > toJ) {
         return validDiagonalDownLeftMove(board, move);
     }
-    else if (currentI > toI && currentJ > toJ) {
+    else if (currentI < toI && currentJ < toJ) {
         return validDiagonalDownRightMove(board, move);
     }
     return false;
 };
 exports.validDiagonalMove = validDiagonalMove;
 const validPawnMove = (board, move) => {
-    let currentJ = move.currentJ, currentI = move.toI, toI = move.toI;
+    let currentJ = move.currentJ, currentI = move.currentI, toI = move.toI;
     if (currentI > toI) {
         while (--currentI > toI) {
             if (board.grid[currentI][currentJ].piece) {
@@ -146,7 +147,7 @@ const validPawnMove = (board, move) => {
 exports.validPawnMove = validPawnMove;
 const validKnightMove = (board, move) => {
     // Check for 8 conditions
-    let currentJ = move.currentJ, currentI = move.toI, toJ = move.toJ, toI = move.toI;
+    let currentJ = move.currentJ, currentI = move.currentI, toJ = move.toJ, toI = move.toI;
     if (currentI + 2 == toI && currentJ + 1 == toJ) {
         return true;
     }

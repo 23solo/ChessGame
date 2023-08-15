@@ -23,20 +23,27 @@ const validPieceMove = (move, board) => {
     if (!piece) {
         return false;
     }
-    if (piece.name == 'Bishop' || piece.name == 'Queen') {
+    if (piece.name == 'Bishop') {
         if (Math.abs(move.toI - move.currentI) == Math.abs(move.toJ - move.currentJ)) {
             return (0, validMoves_1.validDiagonalMove)(board, move);
         }
         return false;
     }
-    else if (piece.name == 'Rook' || piece.name == 'Queen') {
+    else if (piece.name == 'Rook') {
+        return (0, validMoves_1.validStraightMove)(board, move);
+    }
+    else if (piece.name == 'Queen') {
+        console.log('yah');
+        if ((0, validMoves_1.validDiagonalMove)(board, move))
+            return true;
         return (0, validMoves_1.validStraightMove)(board, move);
     }
     else if (piece.name == 'Pawn') {
         if (move.toI == move.currentI - 2) {
-            if (move.currentI != 7) {
+            if (move.currentI != 6) {
                 return false;
             }
+            console.log('yaha');
             return (0, validMoves_1.validPawnMove)(board, move);
         }
         else if (move.toI == move.currentI + 2) {

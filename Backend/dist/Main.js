@@ -36,6 +36,7 @@ let moves = [
     [4, 3, 3, 4],
     [0, 5, 1, 4],
     [3, 4, 3, 7],
+    [1, 5, 2, 5],
 ];
 for (let i = 0; i < moves.length; i++) {
     move1.currentI = moves[i][0];
@@ -50,10 +51,12 @@ for (let i = 0; i < moves.length; i++) {
         user = user2;
     }
     if ((0, validatePieceMoves_1.validPieceMove)(move1, board)) {
-        console.log('Came in');
         board.updatePiece(move1);
         if ((0, kingCheck_1.isInvalidMoveKingInCheck)(board, user)) {
             board.updatePiece(move1, true);
+            console.log('Invalid Move Retry!!!');
         }
     }
+    console.log('\n\n');
+    board.print();
 }

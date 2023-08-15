@@ -32,20 +32,28 @@ export const validPieceMove = (move: move, board: Board): boolean => {
   if (!piece) {
     return false;
   }
-  if (piece.name == 'Bishop' || piece.name == 'Queen') {
+
+  if (piece.name == 'Bishop') {
     if (
       Math.abs(move.toI - move.currentI) == Math.abs(move.toJ - move.currentJ)
     ) {
       return validDiagonalMove(board, move);
     }
     return false;
-  } else if (piece.name == 'Rook' || piece.name == 'Queen') {
+  } else if (piece.name == 'Rook') {
+    return validStraightMove(board, move);
+  } else if (piece.name == 'Queen') {
+    console.log('yah');
+
+    if (validDiagonalMove(board, move)) return true;
     return validStraightMove(board, move);
   } else if (piece.name == 'Pawn') {
     if (move.toI == move.currentI - 2) {
-      if (move.currentI != 7) {
+      if (move.currentI != 6) {
         return false;
       }
+
+      console.log('yaha');
       return validPawnMove(board, move);
     } else if (move.toI == move.currentI + 2) {
       if (move.currentI != 1) {
@@ -63,6 +71,7 @@ export const validPieceMove = (move: move, board: Board): boolean => {
     ) {
       return false;
     }
+
     return validKnightMove(board, move);
   } else if (piece.name == 'King') {
     let currentJ = move.currentJ,

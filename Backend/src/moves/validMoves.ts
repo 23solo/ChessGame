@@ -84,6 +84,8 @@ const validDiagonalTopRightMove = (board: Board, move: move): boolean => {
 };
 
 const validDiagonalDownRightMove = (board: Board, move: move): boolean => {
+  console.log('HERE');
+
   let currentJ = move.currentJ,
     currentI = move.toI,
     toJ = move.toJ,
@@ -139,16 +141,17 @@ export const validStraightMove = (board: Board, move: move): boolean => {
 
 export const validDiagonalMove = (board: Board, move: move): boolean => {
   let currentJ = move.currentJ,
-    currentI = move.toI,
+    currentI = move.currentI,
     toJ = move.toJ,
     toI = move.toI;
-  if (currentI < toI && currentJ < toJ) {
+
+  if (currentI > toI && currentJ > toJ) {
     return validDiagonalTopLeftMove(board, move);
-  } else if (currentI < toI && currentJ > toJ) {
-    return validDiagonalTopRightMove(board, move);
   } else if (currentI > toI && currentJ < toJ) {
+    return validDiagonalTopRightMove(board, move);
+  } else if (currentI < toI && currentJ > toJ) {
     return validDiagonalDownLeftMove(board, move);
-  } else if (currentI > toI && currentJ > toJ) {
+  } else if (currentI < toI && currentJ < toJ) {
     return validDiagonalDownRightMove(board, move);
   }
   return false;
@@ -156,7 +159,7 @@ export const validDiagonalMove = (board: Board, move: move): boolean => {
 
 export const validPawnMove = (board: Board, move: move): boolean => {
   let currentJ = move.currentJ,
-    currentI = move.toI,
+    currentI = move.currentI,
     toI = move.toI;
   if (currentI > toI) {
     while (--currentI > toI) {
@@ -178,7 +181,7 @@ export const validPawnMove = (board: Board, move: move): boolean => {
 export const validKnightMove = (board: Board, move: move): boolean => {
   // Check for 8 conditions
   let currentJ = move.currentJ,
-    currentI = move.toI,
+    currentI = move.currentI,
     toJ = move.toJ,
     toI = move.toI;
   if (currentI + 2 == toI && currentJ + 1 == toJ) {
@@ -205,5 +208,6 @@ export const validKnightMove = (board: Board, move: move): boolean => {
   if (currentI - 1 == toI && currentJ - 2 == toJ) {
     return true;
   }
+
   return false;
 };

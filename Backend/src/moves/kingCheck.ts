@@ -53,9 +53,14 @@ const checkRightDownDiagonal = (board: Board, user: User): boolean => {
   currentI++, currentJ++;
   while (currentI < 8 && currentJ < 8) {
     const piece: Piece | undefined = board.grid[currentI][currentJ].piece;
-    if (piece && piece.color != user.color && piece.name in ['Bishop', 'Queen'])
+    if (
+      piece &&
+      piece.color != user.color &&
+      (piece.name == 'Bishop' || piece.name == 'Queen')
+    ) {
+      console.log('here?');
       return true;
-    else if (piece) return false;
+    } else if (piece) return false;
     currentI++;
     currentJ++;
   }
@@ -118,19 +123,12 @@ const checkDownStraight = (board: Board, user: User): boolean => {
   return false;
 };
 
-const checkKnight = (board: Board, user: User): boolean => {
-  let currentI = user.kingPosition[0],
-    currentJ = user.kingPosition[1];
-  currentI++;
-  while (currentI < 8) {
-    const piece: Piece | undefined = board.grid[currentI][currentJ].piece;
-    if (piece && piece.color != user.color && piece.name in ['Rook', 'Queen'])
-      return true;
-    else if (piece) return false;
-    currentI++;
-  }
-  return false;
-};
+// const checkKnight = (board: Board, user: User): boolean => {
+//   let currentI = user.kingPosition[0],
+//     currentJ = user.kingPosition[1];
+//   if(Math.abs())
+//   return false;
+// };
 
 const validDiagonalMove = (board: Board, user: User): boolean => {
   if (checkLeftTopDiagonal(board, user)) return true;

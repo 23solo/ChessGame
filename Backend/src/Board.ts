@@ -38,17 +38,27 @@ export class Board {
 
   updatePiece(move: move, reverse: boolean = false) {
     if (reverse) {
-      this.grid[move.currentI][move.currentJ] = this.grid[move.toI][move.toJ];
-      this.grid[move.toI][move.toJ].piece = undefined;
+      let currPiece = this.grid[move.toI][move.toJ].piece;
+
+      if (currPiece && currPiece.position) {
+        currPiece.position = [move.currentI, move.currentJ];
+      }
       this.grid[move.currentI][move.currentJ].position = [
         move.currentI,
         move.currentJ,
       ];
+
+      this.grid[move.currentI][move.currentJ].piece = currPiece;
+      this.grid[move.toI][move.toJ].piece = undefined;
       return;
     }
-    this.grid[move.toI][move.toJ] = this.grid[move.currentI][move.currentJ];
+
+    let currPiece = this.grid[move.currentI][move.currentJ].piece;
+    if (currPiece && currPiece.position) {
+      currPiece.position = [move.toI, move.toJ];
+    }
+    this.grid[move.toI][move.toJ].piece = currPiece;
     this.grid[move.currentI][move.currentJ].piece = undefined;
-    this.grid[move.toI][move.toJ].position = [move.toI, move.toJ];
   }
 
   print() {

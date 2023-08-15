@@ -20,7 +20,7 @@ const placeKing = (board) => {
 exports.placeKing = placeKing;
 const placeQueen = (board) => {
     const blackQueen = new Piece_1.Piece('B', ' ♕ ', 'Queen', [0, 3]);
-    const whiteQueen = new Piece_1.Piece('B', ' ♕ ', 'Queen', [7, 3]);
+    const whiteQueen = new Piece_1.Piece('W', ' ♕ ', 'Queen', [7, 3]);
     board.placePiece(whiteQueen, 7, 3);
     board.placePiece(blackQueen, 0, 3);
 };
@@ -50,8 +50,8 @@ exports.placeBishops = placeBishops;
 const placeKnights = (board) => {
     const whiteKnight = new Piece_1.Piece('W', ' ♞ ', 'Knight', [7, 1]);
     const whiteKnight1 = new Piece_1.Piece('W', ' ♞ ', 'Knight', [7, 6]);
-    const blackKnight = new Piece_1.Piece('W', ' ♞ ', 'Knight', [0, 1]);
-    const blackKnight1 = new Piece_1.Piece('W', ' ♞ ', 'Knight', [0, 6]);
+    const blackKnight = new Piece_1.Piece('B', ' ♞ ', 'Knight', [0, 1]);
+    const blackKnight1 = new Piece_1.Piece('B', ' ♞ ', 'Knight', [0, 6]);
     board.placePiece(whiteKnight, 7, 1);
     board.placePiece(whiteKnight1, 7, 6);
     board.placePiece(blackKnight1, 0, 1);

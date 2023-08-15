@@ -17,7 +17,7 @@ export const placeKing = (board: Board) => {
 };
 export const placeQueen = (board: Board) => {
   const blackQueen = new Piece('B', ' ♕ ', 'Queen', [0, 3]);
-  const whiteQueen = new Piece('B', ' ♕ ', 'Queen', [7, 3]);
+  const whiteQueen = new Piece('W', ' ♕ ', 'Queen', [7, 3]);
   board.placePiece(whiteQueen, 7, 3);
   board.placePiece(blackQueen, 0, 3);
 };
@@ -45,8 +45,8 @@ export const placeBishops = (board: Board) => {
 export const placeKnights = (board: Board) => {
   const whiteKnight = new Piece('W', ' ♞ ', 'Knight', [7, 1]);
   const whiteKnight1 = new Piece('W', ' ♞ ', 'Knight', [7, 6]);
-  const blackKnight = new Piece('W', ' ♞ ', 'Knight', [0, 1]);
-  const blackKnight1 = new Piece('W', ' ♞ ', 'Knight', [0, 6]);
+  const blackKnight = new Piece('B', ' ♞ ', 'Knight', [0, 1]);
+  const blackKnight1 = new Piece('B', ' ♞ ', 'Knight', [0, 6]);
   board.placePiece(whiteKnight, 7, 1);
   board.placePiece(whiteKnight1, 7, 6);
   board.placePiece(blackKnight1, 0, 1);
