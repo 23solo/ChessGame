@@ -4,4 +4,5 @@ export type User = {
   canCastleLeft: boolean;
   canCastleRight: boolean;
   isKingInCheck: boolean;
+  kingPosition: [number, number];
 };

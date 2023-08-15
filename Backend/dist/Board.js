@@ -27,8 +27,19 @@ class Board {
     placePiece(piece, row, col) {
         piece.position = [row, col];
         this.grid[row][col].piece = piece;
+        if (row == 1 || 6)
+            console.log(row, col, this.grid[row][col].piece);
     }
-    updatePiece(move) {
+    updatePiece(move, reverse = false) {
+        if (reverse) {
+            this.grid[move.currentI][move.currentJ] = this.grid[move.toI][move.toJ];
+            this.grid[move.toI][move.toJ].piece = undefined;
+            this.grid[move.currentI][move.currentJ].position = [
+                move.currentI,
+                move.currentJ,
+            ];
+            return;
+        }
         this.grid[move.toI][move.toJ] = this.grid[move.currentI][move.currentJ];
         this.grid[move.currentI][move.currentJ].piece = undefined;
         this.grid[move.toI][move.toJ].position = [move.toI, move.toJ];
@@ -38,9 +49,10 @@ class Board {
             let rowStr = '';
             for (let j = 0; j < this.size; j++) {
                 const cell = this.grid[i][j];
-                rowStr += cell.piece ? cell.piece.symbol : ` _ `;
+                rowStr += cell.piece ? cell.piece : ` _ `;
+                console.log(cell.piece);
             }
-            console.log(rowStr);
+            // console.log(rowStr);cell.piece
         }
     }
 }
