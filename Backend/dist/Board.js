@@ -25,10 +25,12 @@ class Board {
         return grid;
     }
     placePiece(piece, row, col) {
-        piece.position = [row, col];
         this.grid[row][col].piece = piece;
-        if (row == 1 || 6)
-            console.log(row, col, this.grid[row][col].piece);
+        let curr_piece = this.grid[row][col].piece;
+        if (curr_piece) {
+            curr_piece.position = [row, col];
+        }
+        // if (row == 1 || 6) console.log(row, col, this.grid[row][col].piece);
     }
     updatePiece(move, reverse = false) {
         if (reverse) {
@@ -49,10 +51,11 @@ class Board {
             let rowStr = '';
             for (let j = 0; j < this.size; j++) {
                 const cell = this.grid[i][j];
-                rowStr += cell.piece ? cell.piece : ` _ `;
-                console.log(cell.piece);
+                rowStr += cell.piece ? ` ${cell.piece.symbol} ` : `  _  `;
+                // console.log(cell);
             }
-            // console.log(rowStr);cell.piece
+            console.log(rowStr);
+            console.log();
         }
     }
 }

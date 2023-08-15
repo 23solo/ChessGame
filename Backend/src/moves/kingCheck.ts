@@ -2,7 +2,7 @@ import { Board } from '../Board';
 import { Piece } from '../Piece';
 import { User } from '../user/User';
 
-const validLeftTopDiagonal = (board: Board, user: User): boolean => {
+const checkLeftTopDiagonal = (board: Board, user: User): boolean => {
   let currentI = user.kingPosition[0],
     currentJ = user.kingPosition[1];
   currentI--, currentJ--;
@@ -17,7 +17,7 @@ const validLeftTopDiagonal = (board: Board, user: User): boolean => {
   return false;
 };
 
-const validRightTopDiagonal = (board: Board, user: User): boolean => {
+const checkRightTopDiagonal = (board: Board, user: User): boolean => {
   let currentI = user.kingPosition[0],
     currentJ = user.kingPosition[1];
   currentI--, currentJ++;
@@ -32,7 +32,7 @@ const validRightTopDiagonal = (board: Board, user: User): boolean => {
   return false;
 };
 
-const validLeftDownDiagonal = (board: Board, user: User): boolean => {
+const checkLeftDownDiagonal = (board: Board, user: User): boolean => {
   let currentI = user.kingPosition[0],
     currentJ = user.kingPosition[1];
   currentI++, currentJ--;
@@ -47,7 +47,7 @@ const validLeftDownDiagonal = (board: Board, user: User): boolean => {
   return false;
 };
 
-const validRightDownDiagonal = (board: Board, user: User): boolean => {
+const checkRightDownDiagonal = (board: Board, user: User): boolean => {
   let currentI = user.kingPosition[0],
     currentJ = user.kingPosition[1];
   currentI++, currentJ++;
@@ -62,7 +62,7 @@ const validRightDownDiagonal = (board: Board, user: User): boolean => {
   return false;
 };
 
-const validRightStraight = (board: Board, user: User): boolean => {
+const checkRightStraight = (board: Board, user: User): boolean => {
   let currentI = user.kingPosition[0],
     currentJ = user.kingPosition[1];
   currentJ++;
@@ -76,7 +76,7 @@ const validRightStraight = (board: Board, user: User): boolean => {
   return false;
 };
 
-const validLeftStraight = (board: Board, user: User): boolean => {
+const checkLeftStraight = (board: Board, user: User): boolean => {
   let currentI = user.kingPosition[0],
     currentJ = user.kingPosition[1];
   currentJ--;
@@ -90,7 +90,7 @@ const validLeftStraight = (board: Board, user: User): boolean => {
   return false;
 };
 
-const validTopStraight = (board: Board, user: User): boolean => {
+const checkTopStraight = (board: Board, user: User): boolean => {
   let currentI = user.kingPosition[0],
     currentJ = user.kingPosition[1];
   currentI--;
@@ -104,7 +104,21 @@ const validTopStraight = (board: Board, user: User): boolean => {
   return false;
 };
 
-const validDownStraight = (board: Board, user: User): boolean => {
+const checkDownStraight = (board: Board, user: User): boolean => {
+  let currentI = user.kingPosition[0],
+    currentJ = user.kingPosition[1];
+  currentI++;
+  while (currentI < 8) {
+    const piece: Piece | undefined = board.grid[currentI][currentJ].piece;
+    if (piece && piece.color != user.color && piece.name in ['Rook', 'Queen'])
+      return true;
+    else if (piece) return false;
+    currentI++;
+  }
+  return false;
+};
+
+const checkKnight = (board: Board, user: User): boolean => {
   let currentI = user.kingPosition[0],
     currentJ = user.kingPosition[1];
   currentI++;
@@ -119,17 +133,17 @@ const validDownStraight = (board: Board, user: User): boolean => {
 };
 
 const validDiagonalMove = (board: Board, user: User): boolean => {
-  if (validLeftTopDiagonal(board, user)) return true;
-  if (validRightTopDiagonal(board, user)) return true;
-  if (validLeftDownDiagonal(board, user)) return true;
-  if (validRightDownDiagonal(board, user)) return true;
+  if (checkLeftTopDiagonal(board, user)) return true;
+  if (checkRightTopDiagonal(board, user)) return true;
+  if (checkLeftDownDiagonal(board, user)) return true;
+  if (checkRightDownDiagonal(board, user)) return true;
   return false;
 };
 const validStraightMove = (board: Board, user: User): boolean => {
-  if (validDownStraight(board, user)) return true;
-  if (validTopStraight(board, user)) return true;
-  if (validLeftStraight(board, user)) return true;
-  if (validRightStraight(board, user)) return true;
+  if (checkDownStraight(board, user)) return true;
+  if (checkTopStraight(board, user)) return true;
+  if (checkLeftStraight(board, user)) return true;
+  if (checkRightStraight(board, user)) return true;
   return false;
 };
 
