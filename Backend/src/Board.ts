@@ -1,6 +1,7 @@
 import { Cell } from './Cell';
 import { Piece } from './Piece';
 import { move } from './moves/move';
+import { User } from './user/User';
 export class Board {
   size: number;
   grid: Cell[][];
@@ -28,14 +29,42 @@ export class Board {
   }
 
   placePiece(piece: Piece, row: number, col: number) {
-    piece.position = [row, col];
     this.grid[row][col].piece = piece;
+    let curr_piece = this.grid[row][col].piece;
+    if (curr_piece) {
+      curr_piece.position = [row, col];
+    }
   }
 
-  updatePiece(move: move) {
-    this.grid[move.toI][move.toJ] = this.grid[move.currentI][move.currentJ];
+  updatePiece(move: move, user: User, reverse: boolean = false) {
+    if (reverse) {
+      let currPiece = this.grid[move.toI][move.toJ].piece;
+
+      if (currPiece && currPiece.position) {
+        currPiece.position = [move.currentI, move.currentJ];
+        if (currPiece.name == 'King') {
+          user.kingPosition = [move.currentI, move.currentJ];
+        }
+      }
+      this.grid[move.currentI][move.currentJ].position = [
+        move.currentI,
+        move.currentJ,
+      ];
+
+      this.grid[move.currentI][move.currentJ].piece = currPiece;
+      this.grid[move.toI][move.toJ].piece = undefined;
+      return;
+    }
+
+    let currPiece = this.grid[move.currentI][move.currentJ].piece;
+    if (currPiece && currPiece.position) {
+      if (currPiece.name == 'King') {
+        user.kingPosition = [move.toI, move.toJ];
+      }
+      currPiece.position = [move.toI, move.toJ];
+    }
+    this.grid[move.toI][move.toJ].piece = currPiece;
     this.grid[move.currentI][move.currentJ].piece = undefined;
-    this.grid[move.toI][move.toJ].position = [move.toI, move.toJ];
   }
 
   print() {
@@ -43,9 +72,11 @@ export class Board {
       let rowStr = '';
       for (let j = 0; j < this.size; j++) {
         const cell = this.grid[i][j];
-        rowStr += cell.piece ? cell.piece.symbol : ` _ `;
+        rowStr += cell.piece ? ` ${cell.piece.symbol} ` : `  _  `;
+        // console.log(cell);
       }
       console.log(rowStr);
+      console.log();
     }
   }
 }
