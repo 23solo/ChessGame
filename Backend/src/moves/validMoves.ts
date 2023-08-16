@@ -6,7 +6,7 @@ const validHorizontalLeftMove = (board: Board, move: move): boolean => {
     currentI = move.toI,
     toJ = move.toJ;
   while (--currentJ > toJ) {
-    if (board.grid[currentI][currentJ].piece) {
+    if (board.grid[currentI] && board.grid[currentI][currentJ].piece) {
       return false;
     }
   }
@@ -18,7 +18,7 @@ const validHorizontalRightMove = (board: Board, move: move): boolean => {
     currentI = move.toI,
     toJ = move.toJ;
   while (++currentJ < toJ) {
-    if (board.grid[currentI][currentJ].piece) {
+    if (board.grid[currentI] && board.grid[currentI][currentJ].piece) {
       return false;
     }
   }
@@ -30,7 +30,7 @@ const validVerticalDownMove = (board: Board, move: move): boolean => {
     currentI = move.toI,
     toI = move.toI;
   while (++currentI < toI) {
-    if (board.grid[currentI][currentJ].piece) {
+    if (board.grid[currentI] && board.grid[currentI][currentJ].piece) {
       return false;
     }
   }
@@ -42,7 +42,7 @@ const validVerticalTopMove = (board: Board, move: move): boolean => {
     currentI = move.toI,
     toI = move.toI;
   while (--currentI < toI) {
-    if (board.grid[currentI][currentJ].piece) {
+    if (board.grid[currentI] && board.grid[currentI][currentJ].piece) {
       return false;
     }
   }
@@ -57,7 +57,7 @@ const validDiagonalTopLeftMove = (board: Board, move: move): boolean => {
   --currentJ;
   --currentI;
   while (currentJ > toJ) {
-    if (board.grid[currentI][currentJ].piece) {
+    if (board.grid[currentI] && board.grid[currentI][currentJ].piece) {
       return false;
     }
     --currentJ;
@@ -74,7 +74,7 @@ const validDiagonalTopRightMove = (board: Board, move: move): boolean => {
   ++currentJ;
   --currentI;
   while (currentJ < toJ) {
-    if (board.grid[currentI][currentJ].piece) {
+    if (board.grid[currentI] && board.grid[currentI][currentJ].piece) {
       return false;
     }
     ++currentJ;
@@ -84,16 +84,13 @@ const validDiagonalTopRightMove = (board: Board, move: move): boolean => {
 };
 
 const validDiagonalDownRightMove = (board: Board, move: move): boolean => {
-  console.log('HERE');
-
   let currentJ = move.currentJ,
-    currentI = move.toI,
-    toJ = move.toJ,
-    toI = move.toI;
+    currentI = move.currentI,
+    toJ = move.toJ;
   ++currentJ;
   ++currentI;
   while (currentJ < toJ) {
-    if (board.grid[currentI][currentJ].piece) {
+    if (board.grid[currentI] && board.grid[currentI][currentJ].piece) {
       return false;
     }
     ++currentJ;
@@ -110,7 +107,7 @@ const validDiagonalDownLeftMove = (board: Board, move: move): boolean => {
   --currentJ;
   ++currentI;
   while (currentJ > toJ) {
-    if (board.grid[currentI][currentJ].piece) {
+    if (board.grid[currentI] && board.grid[currentI][currentJ].piece) {
       return false;
     }
     --currentJ;
@@ -163,14 +160,14 @@ export const validPawnMove = (board: Board, move: move): boolean => {
     toI = move.toI;
   if (currentI > toI) {
     while (--currentI > toI) {
-      if (board.grid[currentI][currentJ].piece) {
+      if (board.grid[currentI] && board.grid[currentI][currentJ].piece) {
         return false;
       }
     }
     return true;
   }
   while (++currentI < toI) {
-    if (board.grid[currentI][currentJ].piece) {
+    if (board.grid[currentI] && board.grid[currentI][currentJ].piece) {
       return false;
     }
     return true;
@@ -180,6 +177,7 @@ export const validPawnMove = (board: Board, move: move): boolean => {
 
 export const validKnightMove = (board: Board, move: move): boolean => {
   // Check for 8 conditions
+  // ToDo: make it more generic
   let currentJ = move.currentJ,
     currentI = move.currentI,
     toJ = move.toJ,

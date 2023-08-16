@@ -43,8 +43,6 @@ export const validPieceMove = (move: move, board: Board): boolean => {
   } else if (piece.name == 'Rook') {
     return validStraightMove(board, move);
   } else if (piece.name == 'Queen') {
-    console.log('yah');
-
     if (validDiagonalMove(board, move)) return true;
     return validStraightMove(board, move);
   } else if (piece.name == 'Pawn') {
@@ -52,8 +50,6 @@ export const validPieceMove = (move: move, board: Board): boolean => {
       if (move.currentI != 6) {
         return false;
       }
-
-      console.log('yaha');
       return validPawnMove(board, move);
     } else if (move.toI == move.currentI + 2) {
       if (move.currentI != 1) {

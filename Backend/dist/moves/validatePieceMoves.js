@@ -33,7 +33,6 @@ const validPieceMove = (move, board) => {
         return (0, validMoves_1.validStraightMove)(board, move);
     }
     else if (piece.name == 'Queen') {
-        console.log('yah');
         if ((0, validMoves_1.validDiagonalMove)(board, move))
             return true;
         return (0, validMoves_1.validStraightMove)(board, move);
@@ -43,7 +42,6 @@ const validPieceMove = (move, board) => {
             if (move.currentI != 6) {
                 return false;
             }
-            console.log('yaha');
             return (0, validMoves_1.validPawnMove)(board, move);
         }
         else if (move.toI == move.currentI + 2) {

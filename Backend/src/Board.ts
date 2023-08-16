@@ -1,6 +1,7 @@
 import { Cell } from './Cell';
 import { Piece } from './Piece';
 import { move } from './moves/move';
+import { User } from './user/User';
 export class Board {
   size: number;
   grid: Cell[][];
@@ -33,15 +34,17 @@ export class Board {
     if (curr_piece) {
       curr_piece.position = [row, col];
     }
-    // if (row == 1 || 6) console.log(row, col, this.grid[row][col].piece);
   }
 
-  updatePiece(move: move, reverse: boolean = false) {
+  updatePiece(move: move, user: User, reverse: boolean = false) {
     if (reverse) {
       let currPiece = this.grid[move.toI][move.toJ].piece;
 
       if (currPiece && currPiece.position) {
         currPiece.position = [move.currentI, move.currentJ];
+        if (currPiece.name == 'King') {
+          user.kingPosition = [move.currentI, move.currentJ];
+        }
       }
       this.grid[move.currentI][move.currentJ].position = [
         move.currentI,
@@ -55,6 +58,9 @@ export class Board {
 
     let currPiece = this.grid[move.currentI][move.currentJ].piece;
     if (currPiece && currPiece.position) {
+      if (currPiece.name == 'King') {
+        user.kingPosition = [move.toI, move.toJ];
+      }
       currPiece.position = [move.toI, move.toJ];
     }
     this.grid[move.toI][move.toJ].piece = currPiece;

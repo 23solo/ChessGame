@@ -30,13 +30,15 @@ class Board {
         if (curr_piece) {
             curr_piece.position = [row, col];
         }
-        // if (row == 1 || 6) console.log(row, col, this.grid[row][col].piece);
     }
-    updatePiece(move, reverse = false) {
+    updatePiece(move, user, reverse = false) {
         if (reverse) {
             let currPiece = this.grid[move.toI][move.toJ].piece;
             if (currPiece && currPiece.position) {
                 currPiece.position = [move.currentI, move.currentJ];
+                if (currPiece.name == 'King') {
+                    user.kingPosition = [move.currentI, move.currentJ];
+                }
             }
             this.grid[move.currentI][move.currentJ].position = [
                 move.currentI,
@@ -48,6 +50,9 @@ class Board {
         }
         let currPiece = this.grid[move.currentI][move.currentJ].piece;
         if (currPiece && currPiece.position) {
+            if (currPiece.name == 'King') {
+                user.kingPosition = [move.toI, move.toJ];
+            }
             currPiece.position = [move.toI, move.toJ];
         }
         this.grid[move.toI][move.toJ].piece = currPiece;
