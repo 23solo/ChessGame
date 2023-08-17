@@ -57,6 +57,11 @@ let move1 = {
 //   [0, 2, 2, 0],
 //   [2, 5, 1, 5],
 //   [0, 4, 0, 3],
+//   [6, 4, 5, 5],
+//   [2, 6, 3, 6],
+//   [6, 7, 5, 7],
+//   [3, 6, 4, 6],
+//   [5, 7, 4, 6],
 // ];
 // for (let i = 0; i < moves.length; i++) {
 //   move1.currentI = moves[i][0];
@@ -72,6 +77,7 @@ let move1 = {
 //     otherUser = user2;
 //   }
 //   if (validPieceMove(move1, board)) {
+//     console.log('Yaha?', move1);
 //     board.updatePiece(move1, user);
 //     if (isKingInCheck(board, user)) {
 //       board.updatePiece(move1, user, true);
@@ -79,7 +85,7 @@ let move1 = {
 //       i -= 1; // retry
 //       break;
 //     }
-//     if (isKingInCheck(board, otherUser, true)) {
+//     if (isKingInCheck(board, otherUser)) {
 //       otherUser.isKingInCheck = true;
 //     }
 //     // if the king was in check before now after valid move it's safe
