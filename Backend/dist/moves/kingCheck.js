@@ -196,16 +196,13 @@ const validStraightMove = (board, user) => {
         return true;
     return false;
 };
-const isKingInCheck = (board, user, isOppKingCheck = false) => {
+const isKingInCheck = (board, user) => {
     if (validDiagonalMove(board, user))
         return true;
     if (validStraightMove(board, user))
         return true;
-    if (isOppKingCheck) {
-        if (checkPawn(board, user))
-            return true;
-        return checkKnight(board, user);
-    }
-    return false;
+    if (checkPawn(board, user))
+        return true;
+    return checkKnight(board, user);
 };
 exports.isKingInCheck = isKingInCheck;

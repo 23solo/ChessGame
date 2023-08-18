@@ -7,6 +7,9 @@ import {
 import { Piece } from '../Piece';
 import { move } from './move';
 import { Board } from '../Board';
+import { User } from '../user/User';
+import { canKingCastle } from './castle';
+import { getMove } from './getMoves';
 
 const validateBasicCheck = (board: Board, move: move): boolean => {
   const piece: Piece | undefined =
@@ -23,7 +26,11 @@ const validateBasicCheck = (board: Board, move: move): boolean => {
   return true;
 };
 
-export const validPieceMove = (move: move, board: Board): boolean => {
+export const validPieceMove = (
+  move: move,
+  board: Board,
+  user: User
+): boolean => {
   if (!validateBasicCheck(board, move)) {
     return false;
   }
@@ -43,7 +50,11 @@ export const validPieceMove = (move: move, board: Board): boolean => {
   } else if (piece.name == 'Rook') {
     return validStraightMove(board, move);
   } else if (piece.name == 'Queen') {
-    if (validDiagonalMove(board, move)) return true;
+    if (
+      Math.abs(move.toI - move.currentI) == Math.abs(move.toJ - move.currentJ)
+    ) {
+      return validDiagonalMove(board, move);
+    }
     return validStraightMove(board, move);
   } else if (piece.name == 'Pawn') {
     if (move.toI == move.currentI - 2) {
@@ -68,12 +79,12 @@ export const validPieceMove = (move: move, board: Board): boolean => {
       return false;
     }
 
-    return validKnightMove(board, move);
+    return validKnightMove(move);
   } else if (piece.name == 'King') {
-    let currentJ = move.currentJ,
-      currentI = move.toI,
-      toJ = move.toJ,
-      toI = move.toI;
+    let [currentI, currentJ, toI, toJ] = getMove(move);
+    if (toI == currentI && Math.abs(currentJ - toJ) == 2) {
+      return canKingCastle(board, user, move);
+    }
     if (Math.abs(toI - currentI) > 1 || Math.abs(currentJ - toJ) > 1) {
       return false;
     }

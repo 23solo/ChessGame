@@ -1,45 +1,54 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validKnightMove = exports.validPawnMove = exports.validDiagonalMove = exports.validStraightMove = void 0;
+const getMoves_1 = require("./getMoves");
 // Move should not be same i, j != toI, toJ toI, toJ should not have king
 const validHorizontalLeftMove = (board, move) => {
-    let currentJ = move.currentJ, currentI = move.toI, toJ = move.toJ;
-    while (--currentJ > toJ) {
+    let [currentI, currentJ, toI, toJ] = (0, getMoves_1.getMove)(move);
+    --currentJ;
+    while (currentJ > toJ) {
         if (board.grid[currentI] && board.grid[currentI][currentJ].piece) {
             return false;
         }
+        --currentJ;
     }
     return true;
 };
 const validHorizontalRightMove = (board, move) => {
-    let currentJ = move.currentJ, currentI = move.toI, toJ = move.toJ;
-    while (++currentJ < toJ) {
+    let [currentI, currentJ, _, toJ] = (0, getMoves_1.getMove)(move);
+    ++currentJ;
+    while (currentJ < toJ) {
         if (board.grid[currentI] && board.grid[currentI][currentJ].piece) {
             return false;
         }
+        ++currentJ;
     }
     return true;
 };
 const validVerticalDownMove = (board, move) => {
-    let currentJ = move.currentJ, currentI = move.toI, toI = move.toI;
-    while (++currentI < toI) {
+    let [currentI, currentJ, toI, _] = (0, getMoves_1.getMove)(move);
+    ++currentI;
+    while (currentI < toI) {
         if (board.grid[currentI] && board.grid[currentI][currentJ].piece) {
             return false;
         }
+        ++currentI;
     }
     return true;
 };
 const validVerticalTopMove = (board, move) => {
-    let currentJ = move.currentJ, currentI = move.toI, toI = move.toI;
-    while (--currentI < toI) {
+    let [currentI, currentJ, toI, _] = (0, getMoves_1.getMove)(move);
+    --currentI;
+    while (currentI > toI) {
         if (board.grid[currentI] && board.grid[currentI][currentJ].piece) {
             return false;
         }
+        --currentI;
     }
     return true;
 };
 const validDiagonalTopLeftMove = (board, move) => {
-    let currentJ = move.currentJ, currentI = move.toI, toJ = move.toJ, toI = move.toI;
+    let [currentI, currentJ, _, toJ] = (0, getMoves_1.getMove)(move);
     --currentJ;
     --currentI;
     while (currentJ > toJ) {
@@ -52,7 +61,7 @@ const validDiagonalTopLeftMove = (board, move) => {
     return true;
 };
 const validDiagonalTopRightMove = (board, move) => {
-    let currentJ = move.currentJ, currentI = move.toI, toJ = move.toJ, toI = move.toI;
+    let [currentI, currentJ, _, toJ] = (0, getMoves_1.getMove)(move);
     ++currentJ;
     --currentI;
     while (currentJ < toJ) {
@@ -65,7 +74,7 @@ const validDiagonalTopRightMove = (board, move) => {
     return true;
 };
 const validDiagonalDownRightMove = (board, move) => {
-    let currentJ = move.currentJ, currentI = move.currentI, toJ = move.toJ;
+    let [currentI, currentJ, _, toJ] = (0, getMoves_1.getMove)(move);
     ++currentJ;
     ++currentI;
     while (currentJ < toJ) {
@@ -78,7 +87,7 @@ const validDiagonalDownRightMove = (board, move) => {
     return true;
 };
 const validDiagonalDownLeftMove = (board, move) => {
-    let currentJ = move.currentJ, currentI = move.toI, toJ = move.toJ, toI = move.toI;
+    let [currentI, currentJ, _, toJ] = (0, getMoves_1.getMove)(move);
     --currentJ;
     ++currentI;
     while (currentJ > toJ) {
@@ -92,14 +101,14 @@ const validDiagonalDownLeftMove = (board, move) => {
 };
 // Calling the above methods on conditions
 const validStraightMove = (board, move) => {
-    let currentJ = move.currentJ, currentI = move.toI, toJ = move.toJ, toI = move.toI;
-    if (toI == toI) {
+    let [currentI, currentJ, toI, toJ] = (0, getMoves_1.getMove)(move);
+    if (toI == currentI) {
         if (toJ > currentJ) {
             return validHorizontalRightMove(board, move);
         }
         return validHorizontalLeftMove(board, move);
     }
-    else if (toJ == toJ) {
+    else if (toJ == currentJ) {
         if (toI > currentI) {
             return validVerticalDownMove(board, move);
         }
@@ -109,7 +118,7 @@ const validStraightMove = (board, move) => {
 };
 exports.validStraightMove = validStraightMove;
 const validDiagonalMove = (board, move) => {
-    let currentJ = move.currentJ, currentI = move.currentI, toJ = move.toJ, toI = move.toI;
+    let [currentI, currentJ, toI, toJ] = (0, getMoves_1.getMove)(move);
     if (currentI > toI && currentJ > toJ) {
         return validDiagonalTopLeftMove(board, move);
     }
@@ -126,12 +135,14 @@ const validDiagonalMove = (board, move) => {
 };
 exports.validDiagonalMove = validDiagonalMove;
 const validPawnMove = (board, move) => {
-    let currentJ = move.currentJ, currentI = move.currentI, toI = move.toI;
+    let [currentI, currentJ, toI, _] = (0, getMoves_1.getMove)(move);
     if (currentI > toI) {
-        while (--currentI > toI) {
+        --currentI;
+        while (currentI > toI) {
             if (board.grid[currentI] && board.grid[currentI][currentJ].piece) {
                 return false;
             }
+            --currentI;
         }
         return true;
     }
@@ -139,15 +150,16 @@ const validPawnMove = (board, move) => {
         if (board.grid[currentI] && board.grid[currentI][currentJ].piece) {
             return false;
         }
+        ++currentI;
         return true;
     }
     return false;
 };
 exports.validPawnMove = validPawnMove;
-const validKnightMove = (board, move) => {
+const validKnightMove = (move) => {
     // Check for 8 conditions
     // ToDo: make it more generic
-    let currentJ = move.currentJ, currentI = move.currentI, toJ = move.toJ, toI = move.toI;
+    let [currentI, currentJ, toI, toJ] = (0, getMoves_1.getMove)(move);
     if (currentI + 2 == toI && currentJ + 1 == toJ) {
         return true;
     }

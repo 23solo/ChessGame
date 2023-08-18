@@ -54,9 +54,9 @@ class Board {
                 user.kingPosition = [move.toI, move.toJ];
             }
             currPiece.position = [move.toI, move.toJ];
+            this.grid[move.toI][move.toJ].piece = currPiece;
+            this.grid[move.currentI][move.currentJ].piece = undefined;
         }
-        this.grid[move.toI][move.toJ].piece = currPiece;
-        this.grid[move.currentI][move.currentJ].piece = undefined;
     }
     print() {
         for (let i = 0; i < this.size; i++) {

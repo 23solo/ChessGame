@@ -207,6 +207,7 @@ const validDiagonalMove = (board: Board, user: User): boolean => {
   if (checkRightDownDiagonal(board, user)) return true;
   return false;
 };
+
 const validStraightMove = (board: Board, user: User): boolean => {
   if (checkDownStraight(board, user)) return true;
   if (checkTopStraight(board, user)) return true;
@@ -215,16 +216,9 @@ const validStraightMove = (board: Board, user: User): boolean => {
   return false;
 };
 
-export const isKingInCheck = (
-  board: Board,
-  user: User,
-  isOppKingCheck: boolean = false
-): boolean => {
+export const isKingInCheck = (board: Board, user: User): boolean => {
   if (validDiagonalMove(board, user)) return true;
   if (validStraightMove(board, user)) return true;
-  if (isOppKingCheck) {
-    if (checkPawn(board, user)) return true;
-    return checkKnight(board, user);
-  }
-  return false;
+  if (checkPawn(board, user)) return true;
+  return checkKnight(board, user);
 };
