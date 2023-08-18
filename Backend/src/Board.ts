@@ -57,14 +57,15 @@ export class Board {
     }
 
     let currPiece = this.grid[move.currentI][move.currentJ].piece;
+
     if (currPiece && currPiece.position) {
       if (currPiece.name == 'King') {
         user.kingPosition = [move.toI, move.toJ];
       }
       currPiece.position = [move.toI, move.toJ];
+      this.grid[move.toI][move.toJ].piece = currPiece;
+      this.grid[move.currentI][move.currentJ].piece = undefined;
     }
-    this.grid[move.toI][move.toJ].piece = currPiece;
-    this.grid[move.currentI][move.currentJ].piece = undefined;
   }
 
   print() {

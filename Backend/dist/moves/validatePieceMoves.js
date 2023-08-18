@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validPieceMove = void 0;
 const validMoves_1 = require("./validMoves");
+const castle_1 = require("./castle");
+const getMoves_1 = require("./getMoves");
 const validateBasicCheck = (board, move) => {
     const piece = board.grid[move.currentI][move.currentJ].piece;
     if (!piece) {
@@ -15,7 +17,7 @@ const validateBasicCheck = (board, move) => {
     }
     return true;
 };
-const validPieceMove = (move, board) => {
+const validPieceMove = (move, board, user) => {
     if (!validateBasicCheck(board, move)) {
         return false;
     }
@@ -33,8 +35,9 @@ const validPieceMove = (move, board) => {
         return (0, validMoves_1.validStraightMove)(board, move);
     }
     else if (piece.name == 'Queen') {
-        if ((0, validMoves_1.validDiagonalMove)(board, move))
-            return true;
+        if (Math.abs(move.toI - move.currentI) == Math.abs(move.toJ - move.currentJ)) {
+            return (0, validMoves_1.validDiagonalMove)(board, move);
+        }
         return (0, validMoves_1.validStraightMove)(board, move);
     }
     else if (piece.name == 'Pawn') {
@@ -60,10 +63,13 @@ const validPieceMove = (move, board) => {
             3) {
             return false;
         }
-        return (0, validMoves_1.validKnightMove)(board, move);
+        return (0, validMoves_1.validKnightMove)(move);
     }
     else if (piece.name == 'King') {
-        let currentJ = move.currentJ, currentI = move.toI, toJ = move.toJ, toI = move.toI;
+        let [currentI, currentJ, toI, toJ] = (0, getMoves_1.getMove)(move);
+        if (toI == currentI && Math.abs(currentJ - toJ) == 2) {
+            return (0, castle_1.canKingCastle)(board, user, move);
+        }
         if (Math.abs(toI - currentI) > 1 || Math.abs(currentJ - toJ) > 1) {
             return false;
         }

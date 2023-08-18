@@ -1,59 +1,58 @@
 import { move } from './move';
 import { Board } from '../Board';
+import { getMove } from './getMoves';
 // Move should not be same i, j != toI, toJ toI, toJ should not have king
 const validHorizontalLeftMove = (board: Board, move: move): boolean => {
-  let currentJ = move.currentJ,
-    currentI = move.toI,
-    toJ = move.toJ;
-  while (--currentJ > toJ) {
+  let [currentI, currentJ, toI, toJ] = getMove(move);
+  --currentJ;
+  while (currentJ > toJ) {
     if (board.grid[currentI] && board.grid[currentI][currentJ].piece) {
       return false;
     }
+    --currentJ;
   }
   return true;
 };
 
 const validHorizontalRightMove = (board: Board, move: move): boolean => {
-  let currentJ = move.currentJ,
-    currentI = move.toI,
-    toJ = move.toJ;
-  while (++currentJ < toJ) {
+  let [currentI, currentJ, _, toJ] = getMove(move);
+  ++currentJ;
+  while (currentJ < toJ) {
     if (board.grid[currentI] && board.grid[currentI][currentJ].piece) {
       return false;
     }
+    ++currentJ;
   }
   return true;
 };
 
 const validVerticalDownMove = (board: Board, move: move): boolean => {
-  let currentJ = move.currentJ,
-    currentI = move.toI,
-    toI = move.toI;
-  while (++currentI < toI) {
+  let [currentI, currentJ, toI, _] = getMove(move);
+  ++currentI;
+  while (currentI < toI) {
     if (board.grid[currentI] && board.grid[currentI][currentJ].piece) {
       return false;
     }
+    ++currentI;
   }
   return true;
 };
 
 const validVerticalTopMove = (board: Board, move: move): boolean => {
-  let currentJ = move.currentJ,
-    currentI = move.toI,
-    toI = move.toI;
-  while (--currentI < toI) {
+  let [currentI, currentJ, toI, _] = getMove(move);
+  --currentI;
+  while (currentI > toI) {
     if (board.grid[currentI] && board.grid[currentI][currentJ].piece) {
       return false;
     }
+    --currentI;
   }
+
   return true;
 };
 
 const validDiagonalTopLeftMove = (board: Board, move: move): boolean => {
-  let currentJ = move.currentJ,
-    currentI = move.toI,
-    toJ = move.toJ,
-    toI = move.toI;
+  let [currentI, currentJ, _, toJ] = getMove(move);
   --currentJ;
   --currentI;
   while (currentJ > toJ) {
@@ -67,10 +66,7 @@ const validDiagonalTopLeftMove = (board: Board, move: move): boolean => {
 };
 
 const validDiagonalTopRightMove = (board: Board, move: move): boolean => {
-  let currentJ = move.currentJ,
-    currentI = move.toI,
-    toJ = move.toJ,
-    toI = move.toI;
+  let [currentI, currentJ, _, toJ] = getMove(move);
   ++currentJ;
   --currentI;
   while (currentJ < toJ) {
@@ -84,9 +80,7 @@ const validDiagonalTopRightMove = (board: Board, move: move): boolean => {
 };
 
 const validDiagonalDownRightMove = (board: Board, move: move): boolean => {
-  let currentJ = move.currentJ,
-    currentI = move.currentI,
-    toJ = move.toJ;
+  let [currentI, currentJ, _, toJ] = getMove(move);
   ++currentJ;
   ++currentI;
   while (currentJ < toJ) {
@@ -100,10 +94,7 @@ const validDiagonalDownRightMove = (board: Board, move: move): boolean => {
 };
 
 const validDiagonalDownLeftMove = (board: Board, move: move): boolean => {
-  let currentJ = move.currentJ,
-    currentI = move.toI,
-    toJ = move.toJ,
-    toI = move.toI;
+  let [currentI, currentJ, _, toJ] = getMove(move);
   --currentJ;
   ++currentI;
   while (currentJ > toJ) {
@@ -118,29 +109,25 @@ const validDiagonalDownLeftMove = (board: Board, move: move): boolean => {
 
 // Calling the above methods on conditions
 export const validStraightMove = (board: Board, move: move): boolean => {
-  let currentJ = move.currentJ,
-    currentI = move.toI,
-    toJ = move.toJ,
-    toI = move.toI;
-  if (toI == toI) {
+  let [currentI, currentJ, toI, toJ] = getMove(move);
+
+  if (toI == currentI) {
     if (toJ > currentJ) {
       return validHorizontalRightMove(board, move);
     }
     return validHorizontalLeftMove(board, move);
-  } else if (toJ == toJ) {
+  } else if (toJ == currentJ) {
     if (toI > currentI) {
       return validVerticalDownMove(board, move);
     }
     return validVerticalTopMove(board, move);
   }
+
   return false;
 };
 
 export const validDiagonalMove = (board: Board, move: move): boolean => {
-  let currentJ = move.currentJ,
-    currentI = move.currentI,
-    toJ = move.toJ,
-    toI = move.toI;
+  let [currentI, currentJ, toI, toJ] = getMove(move);
 
   if (currentI > toI && currentJ > toJ) {
     return validDiagonalTopLeftMove(board, move);
@@ -155,14 +142,15 @@ export const validDiagonalMove = (board: Board, move: move): boolean => {
 };
 
 export const validPawnMove = (board: Board, move: move): boolean => {
-  let currentJ = move.currentJ,
-    currentI = move.currentI,
-    toI = move.toI;
+  console.log('CAme here');
+  let [currentI, currentJ, toI, _] = getMove(move);
   if (currentI > toI) {
-    while (--currentI > toI) {
+    --currentI;
+    while (currentI > toI) {
       if (board.grid[currentI] && board.grid[currentI][currentJ].piece) {
         return false;
       }
+      --currentI;
     }
     return true;
   }
@@ -170,18 +158,16 @@ export const validPawnMove = (board: Board, move: move): boolean => {
     if (board.grid[currentI] && board.grid[currentI][currentJ].piece) {
       return false;
     }
+    ++currentI;
     return true;
   }
   return false;
 };
 
-export const validKnightMove = (board: Board, move: move): boolean => {
+export const validKnightMove = (move: move): boolean => {
   // Check for 8 conditions
   // ToDo: make it more generic
-  let currentJ = move.currentJ,
-    currentI = move.currentI,
-    toJ = move.toJ,
-    toI = move.toI;
+  let [currentI, currentJ, toI, toJ] = getMove(move);
   if (currentI + 2 == toI && currentJ + 1 == toJ) {
     return true;
   }
