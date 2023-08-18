@@ -142,7 +142,6 @@ export const validDiagonalMove = (board: Board, move: move): boolean => {
 };
 
 export const validPawnMove = (board: Board, move: move): boolean => {
-  console.log('CAme here');
   let [currentI, currentJ, toI, _] = getMove(move);
   if (currentI > toI) {
     --currentI;

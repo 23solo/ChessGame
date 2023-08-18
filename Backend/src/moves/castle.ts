@@ -26,7 +26,6 @@ export const updateCastle = (user: User, move: move) => {
       user.canCastleRight = false;
     }
   } else {
-    console.log(move.currentI, move.currentJ);
     if (move.currentI == 0 && move.currentJ == 0 && user.canCastleLeft) {
       user.canCastleLeft = false;
     } else if (

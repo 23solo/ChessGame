@@ -23,7 +23,6 @@ const updateCastle = (user, move) => {
         }
     }
     else {
-        console.log(move.currentI, move.currentJ);
         if (move.currentI == 0 && move.currentJ == 0 && user.canCastleLeft) {
             user.canCastleLeft = false;
         }

@@ -135,7 +135,6 @@ const validDiagonalMove = (board, move) => {
 };
 exports.validDiagonalMove = validDiagonalMove;
 const validPawnMove = (board, move) => {
-    console.log('CAme here');
     let [currentI, currentJ, toI, _] = (0, getMoves_1.getMove)(move);
     if (currentI > toI) {
         --currentI;
