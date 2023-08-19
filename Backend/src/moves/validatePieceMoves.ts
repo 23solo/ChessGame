@@ -83,6 +83,7 @@ export const validPieceMove = (
   } else if (piece.name == 'King') {
     let [currentI, currentJ, toI, toJ] = getMove(move);
     if (toI == currentI && Math.abs(currentJ - toJ) == 2) {
+      // ToDo user is only used here / can optimise
       return canKingCastle(board, user, move);
     }
     if (Math.abs(toI - currentI) > 1 || Math.abs(currentJ - toJ) > 1) {
