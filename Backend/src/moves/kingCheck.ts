@@ -1,4 +1,5 @@
 import { Board } from '../Board';
+import { kingCheckPosition } from '../KingCheck/checkPosition';
 import { Piece } from '../Piece';
 import { User } from '../user/User';
 
@@ -30,9 +31,10 @@ const checkLeftTopDiagonal = (board: Board, user: User): boolean => {
       piece &&
       piece.color != user.color &&
       ['Bishop', 'Queen'].includes(piece.name)
-    )
+    ) {
+      kingCheckPosition(user, piece.position);
       return true;
-    else if (piece) return false;
+    } else if (piece) return false;
     currentI--;
     currentJ--;
   }
@@ -48,9 +50,10 @@ const checkRightTopDiagonal = (board: Board, user: User): boolean => {
       piece &&
       piece.color != user.color &&
       ['Bishop', 'Queen'].includes(piece.name)
-    )
+    ) {
+      kingCheckPosition(user, piece.position);
       return true;
-    else if (piece) return false;
+    } else if (piece) return false;
     currentI--;
     currentJ++;
   }
@@ -66,9 +69,10 @@ const checkLeftDownDiagonal = (board: Board, user: User): boolean => {
       piece &&
       piece.color != user.color &&
       ['Bishop', 'Queen'].includes(piece.name)
-    )
+    ) {
+      kingCheckPosition(user, piece.position);
       return true;
-    else if (piece) return false;
+    } else if (piece) return false;
     currentI++;
     currentJ--;
   }
@@ -85,6 +89,7 @@ const checkRightDownDiagonal = (board: Board, user: User): boolean => {
       piece.color != user.color &&
       (piece.name == 'Bishop' || piece.name == 'Queen')
     ) {
+      kingCheckPosition(user, piece.position);
       return true;
     } else if (piece) return false;
     currentI++;
@@ -102,9 +107,10 @@ const checkRightStraight = (board: Board, user: User): boolean => {
       piece &&
       piece.color != user.color &&
       ['Rook', 'Queen'].includes(piece.name)
-    )
+    ) {
+      kingCheckPosition(user, piece.position);
       return true;
-    else if (piece) return false;
+    } else if (piece) return false;
     currentJ++;
   }
   return false;
@@ -119,9 +125,10 @@ const checkLeftStraight = (board: Board, user: User): boolean => {
       piece &&
       piece.color != user.color &&
       ['Rook', 'Queen'].includes(piece.name)
-    )
+    ) {
+      kingCheckPosition(user, piece.position);
       return true;
-    else if (piece) return false;
+    } else if (piece) return false;
     currentJ--;
   }
   return false;
@@ -136,9 +143,10 @@ const checkTopStraight = (board: Board, user: User): boolean => {
       piece &&
       piece.color != user.color &&
       ['Rook', 'Queen'].includes(piece.name)
-    )
+    ) {
+      kingCheckPosition(user, piece.position);
       return true;
-    else if (piece) return false;
+    } else if (piece) return false;
     currentI--;
   }
   return false;
@@ -146,7 +154,6 @@ const checkTopStraight = (board: Board, user: User): boolean => {
 
 const checkDownStraight = (board: Board, user: User): boolean => {
   let [currentI, currentJ] = getKingPosition(user);
-
   currentI++;
   while (currentI < 8) {
     const piece: Piece | undefined = board.grid[currentI][currentJ].piece;
@@ -154,9 +161,10 @@ const checkDownStraight = (board: Board, user: User): boolean => {
       piece &&
       piece.color != user.color &&
       ['Rook', 'Queen'].includes(piece.name)
-    )
+    ) {
+      kingCheckPosition(user, piece.position);
       return true;
-    else if (piece) return false;
+    } else if (piece) return false;
     currentI++;
   }
   return false;
@@ -177,7 +185,10 @@ const checkKnight = (board: Board, user: User): boolean => {
   for (const [x, y] of positions) {
     const piece = getPiece(board, user, x, y);
     if (piece && piece.name === 'Knight' && piece.color !== user.color) {
-      return true;
+      {
+        kingCheckPosition(user, piece.position);
+        return true;
+      }
     }
   }
 
@@ -188,14 +199,26 @@ const checkPawn = (board: Board, user: User): boolean => {
   let [currentI] = getKingPosition(user);
   if (user.color == 'B' && currentI != 7) {
     let piece: Piece | undefined = getPiece(board, user, 1, 1);
-    if (piece && piece.name == 'Pawn' && piece.color != user.color) return true;
+    if (piece && piece.name == 'Pawn' && piece.color != user.color) {
+      kingCheckPosition(user, piece.position);
+      return true;
+    }
     piece = getPiece(board, user, 1, -1);
-    if (piece && piece.name == 'Pawn' && piece.color != user.color) return true;
+    if (piece && piece.name == 'Pawn' && piece.color != user.color) {
+      kingCheckPosition(user, piece.position);
+      return true;
+    }
   } else {
     let piece: Piece | undefined = getPiece(board, user, -1, 1);
-    if (piece && piece.name == 'Pawn' && piece.color != user.color) return true;
+    if (piece && piece.name == 'Pawn' && piece.color != user.color) {
+      kingCheckPosition(user, piece.position);
+      return true;
+    }
     piece = getPiece(board, user, -1, -1);
-    if (piece && piece.name == 'Pawn' && piece.color != user.color) return true;
+    if (piece && piece.name == 'Pawn' && piece.color != user.color) {
+      kingCheckPosition(user, piece.position);
+      return true;
+    }
   }
   return false;
 };

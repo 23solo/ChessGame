@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.isKingInCheck = void 0;
+const checkPosition_1 = require("../KingCheck/checkPosition");
 const getKingPosition = (user) => {
     return [user.kingPosition[0], user.kingPosition[1]];
 };
@@ -17,8 +18,10 @@ const checkLeftTopDiagonal = (board, user) => {
         const piece = board.grid[currentI][currentJ].piece;
         if (piece &&
             piece.color != user.color &&
-            ['Bishop', 'Queen'].includes(piece.name))
+            ['Bishop', 'Queen'].includes(piece.name)) {
+            (0, checkPosition_1.kingCheckPosition)(user, piece.position);
             return true;
+        }
         else if (piece)
             return false;
         currentI--;
@@ -33,8 +36,10 @@ const checkRightTopDiagonal = (board, user) => {
         const piece = board.grid[currentI][currentJ].piece;
         if (piece &&
             piece.color != user.color &&
-            ['Bishop', 'Queen'].includes(piece.name))
+            ['Bishop', 'Queen'].includes(piece.name)) {
+            (0, checkPosition_1.kingCheckPosition)(user, piece.position);
             return true;
+        }
         else if (piece)
             return false;
         currentI--;
@@ -49,8 +54,10 @@ const checkLeftDownDiagonal = (board, user) => {
         const piece = board.grid[currentI][currentJ].piece;
         if (piece &&
             piece.color != user.color &&
-            ['Bishop', 'Queen'].includes(piece.name))
+            ['Bishop', 'Queen'].includes(piece.name)) {
+            (0, checkPosition_1.kingCheckPosition)(user, piece.position);
             return true;
+        }
         else if (piece)
             return false;
         currentI++;
@@ -66,6 +73,7 @@ const checkRightDownDiagonal = (board, user) => {
         if (piece &&
             piece.color != user.color &&
             (piece.name == 'Bishop' || piece.name == 'Queen')) {
+            (0, checkPosition_1.kingCheckPosition)(user, piece.position);
             return true;
         }
         else if (piece)
@@ -82,8 +90,10 @@ const checkRightStraight = (board, user) => {
         const piece = board.grid[currentI][currentJ].piece;
         if (piece &&
             piece.color != user.color &&
-            ['Rook', 'Queen'].includes(piece.name))
+            ['Rook', 'Queen'].includes(piece.name)) {
+            (0, checkPosition_1.kingCheckPosition)(user, piece.position);
             return true;
+        }
         else if (piece)
             return false;
         currentJ++;
@@ -97,8 +107,10 @@ const checkLeftStraight = (board, user) => {
         const piece = board.grid[currentI][currentJ].piece;
         if (piece &&
             piece.color != user.color &&
-            ['Rook', 'Queen'].includes(piece.name))
+            ['Rook', 'Queen'].includes(piece.name)) {
+            (0, checkPosition_1.kingCheckPosition)(user, piece.position);
             return true;
+        }
         else if (piece)
             return false;
         currentJ--;
@@ -112,8 +124,10 @@ const checkTopStraight = (board, user) => {
         const piece = board.grid[currentI][currentJ].piece;
         if (piece &&
             piece.color != user.color &&
-            ['Rook', 'Queen'].includes(piece.name))
+            ['Rook', 'Queen'].includes(piece.name)) {
+            (0, checkPosition_1.kingCheckPosition)(user, piece.position);
             return true;
+        }
         else if (piece)
             return false;
         currentI--;
@@ -127,8 +141,10 @@ const checkDownStraight = (board, user) => {
         const piece = board.grid[currentI][currentJ].piece;
         if (piece &&
             piece.color != user.color &&
-            ['Rook', 'Queen'].includes(piece.name))
+            ['Rook', 'Queen'].includes(piece.name)) {
+            (0, checkPosition_1.kingCheckPosition)(user, piece.position);
             return true;
+        }
         else if (piece)
             return false;
         currentI++;
@@ -149,7 +165,10 @@ const checkKnight = (board, user) => {
     for (const [x, y] of positions) {
         const piece = getPiece(board, user, x, y);
         if (piece && piece.name === 'Knight' && piece.color !== user.color) {
-            return true;
+            {
+                (0, checkPosition_1.kingCheckPosition)(user, piece.position);
+                return true;
+            }
         }
     }
     return false;
@@ -158,19 +177,27 @@ const checkPawn = (board, user) => {
     let [currentI] = getKingPosition(user);
     if (user.color == 'B' && currentI != 7) {
         let piece = getPiece(board, user, 1, 1);
-        if (piece && piece.name == 'Pawn' && piece.color != user.color)
+        if (piece && piece.name == 'Pawn' && piece.color != user.color) {
+            (0, checkPosition_1.kingCheckPosition)(user, piece.position);
             return true;
+        }
         piece = getPiece(board, user, 1, -1);
-        if (piece && piece.name == 'Pawn' && piece.color != user.color)
+        if (piece && piece.name == 'Pawn' && piece.color != user.color) {
+            (0, checkPosition_1.kingCheckPosition)(user, piece.position);
             return true;
+        }
     }
     else {
         let piece = getPiece(board, user, -1, 1);
-        if (piece && piece.name == 'Pawn' && piece.color != user.color)
+        if (piece && piece.name == 'Pawn' && piece.color != user.color) {
+            (0, checkPosition_1.kingCheckPosition)(user, piece.position);
             return true;
+        }
         piece = getPiece(board, user, -1, -1);
-        if (piece && piece.name == 'Pawn' && piece.color != user.color)
+        if (piece && piece.name == 'Pawn' && piece.color != user.color) {
+            (0, checkPosition_1.kingCheckPosition)(user, piece.position);
             return true;
+        }
     }
     return false;
 };

@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const initialize_1 = require("./ChessBoard/initialize");
 const castle_1 = require("./moves/castle");
 const kingCheck_1 = require("./moves/kingCheck");
+const protectKing_1 = require("./moves/protectKing");
 const validatePieceMoves_1 = require("./moves/validatePieceMoves");
 const board = (0, initialize_1.initializeBoard)();
 const user1 = {
@@ -12,6 +13,7 @@ const user1 = {
     canCastleRight: true,
     isKingInCheck: false,
     kingPosition: [7, 4],
+    kingCheckedFrom: [-1, -1],
 };
 const user2 = {
     name: 'Solo1',
@@ -20,6 +22,7 @@ const user2 = {
     canCastleRight: true,
     isKingInCheck: false,
     kingPosition: [0, 4],
+    kingCheckedFrom: [-1, -1],
 };
 let curr_move = {
     currentI: 1,
@@ -57,9 +60,9 @@ let moves = [
     [3, 4, 2, 5],
     [1, 4, 5, 4],
     [7, 4, 7, 6],
-    // [0, 2, 2, 0],
-    // [2, 5, 3, 5],
-    // [1, 3, 2, 5],
+    [1, 3, 3, 4],
+    [2, 5, 3, 4],
+    // [0, 4, 0, 5],
     // [3, 5, 2, 5],
     // [2, 6, 3, 6],
     // [2, 5, 3, 6],
@@ -115,6 +118,11 @@ for (let i = 0; i < moves.length; i++) {
         (0, castle_1.updateCastle)(user, curr_move);
         if ((0, kingCheck_1.isKingInCheck)(board, otherUser)) {
             otherUser.isKingInCheck = true;
+            // Check if user has any valid moves to protect his king else declare curr_user as winner
+            if (!(0, protectKing_1.canProtectKing)(board, otherUser)) {
+                console.log(`Winner Winner chicken Dinner ${user.name} has beat ${otherUser.name}`);
+                break;
+            }
         }
         // if the king was in check before now after valid move it's safe
         if (user.isKingInCheck) {

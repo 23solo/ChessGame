@@ -3,6 +3,7 @@ import { initializeBoard } from './ChessBoard/initialize';
 import { updateCastle } from './moves/castle';
 import { isKingInCheck } from './moves/kingCheck';
 import { move } from './moves/move';
+import { canProtectKing } from './moves/protectKing';
 import { validPieceMove } from './moves/validatePieceMoves';
 import { User } from './user/User';
 
@@ -15,6 +16,7 @@ const user1: User = {
   canCastleRight: true,
   isKingInCheck: false,
   kingPosition: [7, 4],
+  kingCheckedFrom: [-1, -1],
 };
 
 const user2: User = {
@@ -24,6 +26,7 @@ const user2: User = {
   canCastleRight: true,
   isKingInCheck: false,
   kingPosition: [0, 4],
+  kingCheckedFrom: [-1, -1],
 };
 
 let curr_move: move = {
@@ -63,9 +66,9 @@ let moves = [
   [3, 4, 2, 5],
   [1, 4, 5, 4],
   [7, 4, 7, 6],
-  // [0, 2, 2, 0],
-  // [2, 5, 3, 5],
-  // [1, 3, 2, 5],
+  [1, 3, 3, 4],
+  [2, 5, 3, 4],
+  // [0, 4, 0, 5],
   // [3, 5, 2, 5],
   // [2, 6, 3, 6],
   // [2, 5, 3, 6],
@@ -122,6 +125,13 @@ for (let i = 0; i < moves.length; i++) {
     updateCastle(user, curr_move);
     if (isKingInCheck(board, otherUser)) {
       otherUser.isKingInCheck = true;
+      // Check if user has any valid moves to protect his king else declare curr_user as winner
+      if (!canProtectKing(board, otherUser)) {
+        console.log(
+          `Winner Winner chicken Dinner ${user.name} has beat ${otherUser.name}`
+        );
+        break;
+      }
     }
     // if the king was in check before now after valid move it's safe
     if (user.isKingInCheck) {

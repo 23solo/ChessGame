@@ -1,3 +1,3 @@
-currentChessCount=7
+currentChessCount=8
 branch:
 	./../githooks/createBranch $(currentChessCount) $(name)

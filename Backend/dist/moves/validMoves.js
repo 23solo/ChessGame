@@ -146,7 +146,8 @@ const validPawnMove = (board, move) => {
         }
         return true;
     }
-    while (++currentI < toI) {
+    ++currentI;
+    while (currentI < toI) {
         if (board.grid[currentI] && board.grid[currentI][currentJ].piece) {
             return false;
         }
