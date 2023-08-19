@@ -49,19 +49,24 @@ const checkPieceBlock = (
   return false;
 };
 
-const checkValidMove = (checkMove: move, board: Board, user: User) => {
+const checkValidMove = (checkMove: move, board: Board, user: User): boolean => {
   if (validPieceMove(checkMove, board, user)) {
+    let piece: Piece | undefined =
+      board.grid[checkMove.toI][checkMove.toJ].piece;
     board.updatePiece(checkMove, user);
+
     if (isKingInCheck(board, user)) {
       // revert the move
-      board.updatePiece(checkMove, user, true);
+
+      board.updatePiece(checkMove, user, true, piece);
       return false;
     } else {
       // revert your move and return true that valid move exists
-      board.updatePiece(checkMove, user, true);
+      board.updatePiece(checkMove, user, true, piece);
       return true;
     }
   }
+  return false;
 };
 
 const canRemoveKnight = (
@@ -190,6 +195,7 @@ const canKingMove = (board: Board, user: User): boolean => {
   for (let i in allKingMoves) {
     let checkMove: move;
     checkMove = getMove(user.kingPosition, allKingMoves[i]);
+
     if (basicCheck([checkMove.toI, checkMove.toJ])) {
       if (checkValidMove(checkMove, board, user)) {
         return true;

@@ -1,5 +1,6 @@
 import { Board } from './Board';
 import { initializeBoard } from './ChessBoard/initialize';
+import { Piece } from './Piece';
 import { updateCastle } from './moves/castle';
 import { isKingInCheck } from './moves/kingCheck';
 import { move } from './moves/move';
@@ -20,7 +21,7 @@ const user1: User = {
 };
 
 const user2: User = {
-  name: 'Solo1',
+  name: 'Polo',
   color: 'B',
   canCastleLeft: true,
   canCastleRight: true,
@@ -68,10 +69,11 @@ let moves = [
   [7, 4, 7, 6],
   [1, 3, 3, 4],
   [2, 5, 3, 4],
-  // [0, 4, 0, 5],
-  // [3, 5, 2, 5],
-  // [2, 6, 3, 6],
-  // [2, 5, 3, 6],
+  [0, 4, 0, 5],
+  [3, 4, 2, 4],
+  [0, 7, 0, 6],
+  [2, 4, 1, 5],
+  // [2, 4, 1, 5],
   // [1, 7, 3, 7],
   // [3, 6, 4, 7],
   // [2, 0, 4, 2],
@@ -110,9 +112,11 @@ for (let i = 0; i < moves.length; i++) {
     // ) {
     //   continue;
     // }
+    let piece: Piece | undefined =
+      board.grid[curr_move.toI][curr_move.toJ].piece;
     board.updatePiece(curr_move, user);
     if (isKingInCheck(board, user)) {
-      board.updatePiece(curr_move, user, true);
+      board.updatePiece(curr_move, user, true, piece);
       console.log('Retryyyy king is in check !!!');
 
       i -= 1; // retry
@@ -128,8 +132,10 @@ for (let i = 0; i < moves.length; i++) {
       // Check if user has any valid moves to protect his king else declare curr_user as winner
       if (!canProtectKing(board, otherUser)) {
         console.log(
-          `Winner Winner chicken Dinner ${user.name} has beat ${otherUser.name}`
+          `\n\nWinner Winner chicken Dinner ${user.name} has beat ${otherUser.name}\n\n`
         );
+
+        board.print();
         break;
       }
     }
@@ -146,4 +152,4 @@ for (let i = 0; i < moves.length; i++) {
   board.print();
 }
 
-console.log(user1, user2);
+// console.log(user1, user2);

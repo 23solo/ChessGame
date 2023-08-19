@@ -31,7 +31,7 @@ class Board {
             curr_piece.position = [row, col];
         }
     }
-    updatePiece(move, user, reverse = false) {
+    updatePiece(move, user, reverse = false, piece = undefined) {
         if (reverse) {
             let currPiece = this.grid[move.toI][move.toJ].piece;
             if (currPiece && currPiece.position) {
@@ -45,7 +45,7 @@ class Board {
                 move.currentJ,
             ];
             this.grid[move.currentI][move.currentJ].piece = currPiece;
-            this.grid[move.toI][move.toJ].piece = undefined;
+            this.grid[move.toI][move.toJ].piece = piece;
             return;
         }
         let currPiece = this.grid[move.currentI][move.currentJ].piece;
@@ -63,7 +63,9 @@ class Board {
             let rowStr = '';
             for (let j = 0; j < this.size; j++) {
                 const cell = this.grid[i][j];
-                rowStr += cell.piece ? ` ${cell.piece.symbol} ` : `  _  `;
+                rowStr += cell.piece
+                    ? `  ${cell.piece.symbol}${cell.piece.color} `
+                    : `   _   `;
                 // console.log(cell);
             }
             console.log(rowStr);

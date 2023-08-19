@@ -36,7 +36,12 @@ export class Board {
     }
   }
 
-  updatePiece(move: move, user: User, reverse: boolean = false) {
+  updatePiece(
+    move: move,
+    user: User,
+    reverse: boolean = false,
+    piece: Piece | undefined = undefined
+  ) {
     if (reverse) {
       let currPiece = this.grid[move.toI][move.toJ].piece;
 
@@ -52,7 +57,7 @@ export class Board {
       ];
 
       this.grid[move.currentI][move.currentJ].piece = currPiece;
-      this.grid[move.toI][move.toJ].piece = undefined;
+      this.grid[move.toI][move.toJ].piece = piece;
       return;
     }
 
@@ -73,7 +78,9 @@ export class Board {
       let rowStr = '';
       for (let j = 0; j < this.size; j++) {
         const cell = this.grid[i][j];
-        rowStr += cell.piece ? ` ${cell.piece.symbol} ` : `  _  `;
+        rowStr += cell.piece
+          ? `  ${cell.piece.symbol}${cell.piece.color} `
+          : `   _   `;
         // console.log(cell);
       }
       console.log(rowStr);

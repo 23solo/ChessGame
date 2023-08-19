@@ -11,13 +11,19 @@ import { User } from '../user/User';
 import { canKingCastle } from './castle';
 import { getMove } from './getMoves';
 
-const validateBasicCheck = (board: Board, move: move): boolean => {
+const validateBasicCheck = (board: Board, move: move, user: User): boolean => {
   const piece: Piece | undefined =
     board.grid[move.currentI][move.currentJ].piece;
+  // cell should have piece
   if (!piece) {
     return false;
   }
+  // move piece should belong to user
+  if (piece && piece.color != user.color) {
+    return false;
+  }
   const toPiece: Piece | undefined = board.grid[move.toI][move.toJ].piece;
+  // can't remove king
   if (toPiece) {
     if (toPiece.name == 'King' || toPiece.color == piece.color) {
       return false;
@@ -31,7 +37,7 @@ export const validPieceMove = (
   board: Board,
   user: User
 ): boolean => {
-  if (!validateBasicCheck(board, move)) {
+  if (!validateBasicCheck(board, move, user)) {
     return false;
   }
   const piece: Piece | undefined =
@@ -57,6 +63,9 @@ export const validPieceMove = (
     }
     return validStraightMove(board, move);
   } else if (piece.name == 'Pawn') {
+    if (Math.abs(move.toJ - move.currentJ) > 1) {
+      return false;
+    }
     if (move.toI == move.currentI - 2) {
       if (move.currentI != 6) {
         return false;
@@ -67,7 +76,9 @@ export const validPieceMove = (
         return false;
       }
       return validPawnMove(board, move);
-    } else if (Math.abs(move.toI - move.currentI) == 1) {
+    } else if (move.toI - move.currentI == 1 && user.color == 'B') {
+      return true;
+    } else if (move.currentI - move.toI == 1 && user.color == 'W') {
       return true;
     }
     return false;
